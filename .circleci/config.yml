@@ -1,0 +1,16 @@
+version: 2.0
+jobs:
+  build:
+    working_directory: /imaginary
+    docker:
+      - image: docker:18.06-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build image
+          command: |
+            docker image build \
+              --build-arg VCS_REF=$(git rev-parse --short HEAD) \
+              --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+              -t tmp .

@@ -1,10 +1,8 @@
 ARG GOLANG=1.11.5
 FROM golang:${GOLANG}-alpine3.9 AS build
 
-# Versions
 ARG VIPS_VERSION=8.7.4
 ARG IMAGINARY_VERSION=1.1.0
-
 
 #
 # Begin VIPS: set up a build environment for vips
@@ -52,6 +50,7 @@ RUN mkdir -p ${GOPATH}/src && \
         gopkg.in/h2non/filetype.v1 github.com/throttled/throttled && \
     dep ensure && \
     go build -ldflags="-s -w" -o $GOPATH/bin/imaginary
+#RUN cd ${GOPATH}/src/imaginary-${IMAGINARY_VERSION} && LD_LIBRARY_PATH="/vips/lib:$LD_LIBRARY_PATH" go test -v
 RUN upx --best -q $GOPATH/bin/imaginary
 
 #
@@ -83,7 +82,6 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       imaginary_version=$IMAGINARY_VERSION \
       golang_version=$GOLANG
 
-
 COPY --from=build /vips/lib/ /usr/local/lib
 COPY --from=build /go/bin/imaginary /usr/bin/imaginary
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
@@ -92,8 +90,12 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
     echo "@edge-main http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
     apk add --no-cache fftw giflib lcms2 libexif libimagequant@testing libintl libjpeg-turbo@edge-main \
         libpng libwebp orc tiff glib expat && \
-    rm -rf /usr/share/gtk-doc
+    rm -rf /usr/share/gtk-doc /usr/local/lib/pkgconfig /usr/local/lib/libvips-cpp*
 
 EXPOSE $PORT
 
 ENTRYPOINT ["/usr/bin/imaginary"]
+
+#
+# End container
+#
