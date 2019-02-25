@@ -9,6 +9,23 @@ Quoting the author:
 
 This container seeks to find a compromise between size, functionality and stability.
 
+## Supported formats
+
+Note: I intend to add a e2e test suite to verify that these formats are supported.
+
+-   jp(e)g
+-   gif
+-   png
+-   webp
+-   tiff
+
+Also, these libraries:
+
+-   ogre: fast math
+-   cms2: ICC color management
+-   exif: image metadata
+-   fftw3: fourier transforms
+
 ## Container size
 
 | Name                         | Version | Compressed size |
