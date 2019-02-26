@@ -31,7 +31,7 @@ Also, these libraries:
 | Name                         | Version | Compressed size |
 | :--------------------------- | :------ | :-------------- |
 | h2non/imaginary              | 1.1.0   | 93mb            |
-| jbergstroem/imaginary-alpine | 1.1.0   | ?               |
+| jbergstroem/imaginary-alpine | 1.1.0   | 12mb            |
 
 We achieve a smaller container size for a few reasons:
 
